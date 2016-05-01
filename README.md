@@ -4,7 +4,8 @@ It took about 2~3 hours to play like an expert. (by only CPU, i7-4870HQ)<br />
 I didn't skip any frames unlike the original DeepMind's paper.<br />
 
 ## How to train ##
-`python simple_dqn.py` (python 3.5+ recommended)
+`python simple_dqn.py` (python 3.5+ recommended)<br />
+And you can check the agent's play on http://localhost:11100/
 
 ## Scalar values during training ##
 ![alt text](scalar.png "Scalar")
