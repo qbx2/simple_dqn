@@ -151,7 +151,7 @@ class PlayField:
 		self.score = 0
 		#self.walls = [Wall(0, 0, 0, self.height-1), Wall(0, self.width-1, 0, 0), Wall(self.width-1, self.width-1, 0, self.height-1), Wall(0, self.width-1, self.height-1, self.height-1)]
 		self.walls = [Wall(0, 0, 0, self.height-1), Wall(0, self.width-1, 0, 0), Wall(self.width-1, self.width-1, 0, self.height-1)]#, Wall(0, self.width//2-20, self.height-1, self.height-1), Wall(self.width//2+20, self.width-1, self.height-1, self.height-1)]
-		self.ball = Ball(random.randint(0, self.width-1), 10, random.randint(1,3), random.randint(1,3))
+		self.ball = Ball(random.randint(0, self.width-1), 10, random.randint(2,5), random.randint(2,5))
 		self.paddle = Paddle(self, random.randint(10, self.width-10), 40)
 		#self.timer = Timer()
 		#self.controller = Controller()

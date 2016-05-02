@@ -5,6 +5,7 @@ import game
 import random
 import datetime
 
+TRAIN = True
 OBSERVE = 50000
 BATCH_SIZE = 32
 ACTION_HISTORY_LENGTH = 3
@@ -14,6 +15,8 @@ MAX_PDATA_LIST_SIZE = 1000
 MAX_D_SIZE = 1000000
 GAMMA = 0.99
 C = 10000 # Q reset interval
+
+print('simple_dqn_player.py is running with TRAIN=%s'%TRAIN)
 
 def phi(data):
 	return (data == 0xc84848ff)
@@ -204,6 +207,8 @@ with tf.Graph().as_default() as g:
 			self.pdata_list = self.initial_pdata_list[:]
 
 		def save_networks(self):
+			if not TRAIN:
+				return
 			sess.run(assign_step, feed_dict={ph_new_step: self.cnt})
 			saver.save(sess, 'saved_networks/' + 'network' + '-dqn', global_step=self.cnt)
 			print('[%s] Successfully saved networks'%datetime.datetime.now())
@@ -263,7 +268,7 @@ with tf.Graph().as_default() as g:
 					if len(self.pdata_list) > MAX_PDATA_LIST_SIZE:
 						self.pdata_list = self.pdata_list[-ACTION_HISTORY_LENGTH:]
 
-				if random.random() < .1 or len(self.pdata_list) < ACTION_HISTORY_LENGTH or len(self.D) < OBSERVE: # exploration probability
+				if TRAIN and (random.random() < .1 or len(self.pdata_list) < ACTION_HISTORY_LENGTH or len(self.D) < OBSERVE): # exploration probability
 					#if len(self.a_queue) == 0:
 					#	self.a_queue = [random.randint(0,2)] * 4
 					#a_t = self.a_queue.pop()#self.linear_controller.input(pf, data, **kwargs)+1 #random.randint(0,2)
@@ -288,7 +293,7 @@ with tf.Graph().as_default() as g:
 					for summary in ret[2:]:
 						summary_writer.add_summary(summary, self.cnt)
 
-				if len(self.D) > OBSERVE:
+				if TRAIN and len(self.D) > OBSERVE:
 					# train
 					train_data = random.sample(self.D, BATCH_SIZE)
 
